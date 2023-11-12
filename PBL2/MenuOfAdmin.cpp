@@ -8,7 +8,7 @@ MenuOfAdmin::~MenuOfAdmin()
 {
 }
 
-void MenuOfAdmin::SetAttribute(FoodAndDrink& F,Button& B, const int& xp, const int& yp, const int& width, const int& height, SDL_Renderer* des)
+void MenuOfAdmin::SetAttribute(FoodAndDrink& F,Button& B_freeze, Button& B_remove, const int& xp, const int& yp, const int& width, const int& height, SDL_Renderer* des)
 {
     Text name;
     Text item;
@@ -22,7 +22,9 @@ void MenuOfAdmin::SetAttribute(FoodAndDrink& F,Button& B, const int& xp, const i
     price.SetText(std::to_string(F.GetPrice()));
 
     //Set Button Freeze
-    B.SetButtonRect(xp + 1, yp);
+    B_freeze.SetButtonRect(xp + 1, yp);
+    //Set Button Remove
+    B_remove.SetButtonRect(xp + 210, yp);
 
     //Draw Geometric
     GeometricFormat rectangle_size(xp, yp + 30, width, height - 30);
@@ -49,14 +51,18 @@ void MenuOfAdmin::SetAttribute(FoodAndDrink& F,Button& B, const int& xp, const i
     //Draw Button Freeze
     if (F.GetStatusFreeze())
     {
-        B.LoadImg(Button_Freeze, des);
-        B.Render(des);
+        B_freeze.LoadImg(Button_Freeze, des);
+        B_freeze.Render(des);
     }
     else
     {
-        B.LoadImg(Button_Unfreeze, des);
-        B.Render(des);
+        B_freeze.LoadImg(Button_Unfreeze, des);
+        B_freeze.Render(des);
     }
+
+    //Draw Button Remove
+    B_remove.LoadImg(Button_Remove, des);
+    B_remove.Render(des);
 
 }
 
@@ -73,7 +79,7 @@ void MenuOfAdmin::DisplayMenu(SDL_Renderer* des)
             if (tmp < FoodList.Size())
             {
                 x_start += SPACE_FOR_COLLUM;
-                SetAttribute(FoodList[tmp], B_Freeze[tmp], x_start, y_start, SPACE_FOR_COLLUM - 10, SPACE_FOR_ROW - 10, des);
+                SetAttribute(FoodList[tmp], B_Freeze[tmp], B_Remove[tmp], x_start, y_start, SPACE_FOR_COLLUM - 10, SPACE_FOR_ROW - 10, des);
                 FoodList[tmp].SetLocationOfMenu(this->CurrentPage, x_start, y_start, x_start + SPACE_FOR_COLLUM - 10, y_start + SPACE_FOR_ROW - 10);
             }
             else

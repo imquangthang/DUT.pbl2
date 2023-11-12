@@ -12,6 +12,7 @@ class Menu
 protected:
 	List<FoodAndDrink> FoodList;
 	List<Button> B_Freeze;
+	List<Button> B_Remove;
 	int CurrentPage;
 	int AllPage;
 	bool status_add_food;
@@ -36,8 +37,10 @@ public:
 
 	bool Add();
 	void CheckFreeze(SDL_Event);
-	int GetCurrentPage()const { return CurrentPage; }
-	List<FoodAndDrink>& GetList() { return FoodList; }
+	void CheckRemove(SDL_Event, List<FoodAndDrink>&);
+	void RemoveFood(const int&);
+	int GetCurrentPage()const { return this->CurrentPage; }
+	List<FoodAndDrink>& GetList() { return this->FoodList; }
 	void CheckPage(SDL_Event);
 	void ShowPage(SDL_Renderer*);
 

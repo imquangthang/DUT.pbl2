@@ -9,7 +9,7 @@ public:
 	MenuOfAdmin();
 	virtual ~MenuOfAdmin();
 
-	void SetAttribute(FoodAndDrink&, Button&, const int&, const int&, const int&, const int&, SDL_Renderer*);
+	void SetAttribute(FoodAndDrink&, Button&, Button&, const int&, const int&, const int&, const int&, SDL_Renderer*);
 
 	void DisplayMenu(SDL_Renderer* des);
 };

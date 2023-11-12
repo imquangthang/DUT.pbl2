@@ -154,6 +154,7 @@ int main(int argc, char* argv[])
         while (SDL_PollEvent(&g_event) != 0)
         {
             List<FoodAndDrink>& MenuFood = menu.GetList();
+            List<FoodAndDrink>& OrderFood = order.GetList();
             if (g_event.type == SDL_QUIT)
             {
                 is_quit = true;
@@ -165,6 +166,7 @@ int main(int argc, char* argv[])
                 menu.CheckFreeze(g_event);
                 if (menu.CheckAddMoreFood(g_event))
                     paused = PAUSE::pause_add_food;
+                menu.CheckRemove(g_event, OrderFood);
 
                 order.CheckPage(g_event);
                 order.ChangeQuantityFood(g_event);

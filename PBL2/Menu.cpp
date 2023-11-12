@@ -41,7 +41,7 @@ bool Menu::Add()
     std::string Name; // Tên mon
     std::string Type; // Loai
     int Price;        // gia
-    //Add Button Freeze
+    //Creat Button Freeze && Button Remove
     Button B_tmp;
 
     std::string line;
@@ -62,6 +62,8 @@ bool Menu::Add()
         this->FoodList.Push(F);
         //Add Button Freeze
         this->B_Freeze.Push(B_tmp);
+        //Add Button Freeze
+        this->B_Remove.Push(B_tmp);
     }
     B_tmp.Free();
     inFile.close();
@@ -120,9 +122,45 @@ void Menu::CheckFreeze(SDL_Event events)
         if (this->FoodList[i].GetMenuPage() == this->CurrentPage && B_Freeze[i].CheckMouseFreeze(events))
         {
             FoodList[i].SetStatusFreeze(!FoodList[i].GetStatusFreeze());
-            B_Freeze[i].Free();
         }
+        B_Freeze[i].Free();
     }
+}
+
+void Menu::CheckRemove(SDL_Event events, List<FoodAndDrink>& MenuFood)
+{
+    //Check Remove
+    for (int i = 0; i < this->FoodList.Size(); i++)
+    {
+        if (this->FoodList[i].GetMenuPage() == this->CurrentPage && B_Remove[i].CheckMouse(events))
+        {
+            if(MenuFood.isEmpty())
+                RemoveFood(i);
+            else MessageBox(NULL, L"Hãy Reset Order Trước Khi Xoá Món Ăn", L"Thông Báo", MB_OK | MB_ICONSTOP);
+            break;
+        }
+        else B_Remove[i].Free();
+    }
+}
+
+void Menu::RemoveFood(const int& index)
+{
+    //Remove trên Lists
+    this->FoodList.Pop(index);
+    this->B_Freeze.Pop(index);
+    this->B_Remove.Pop(index);
+
+    //Remove trên CSDL
+    std::ofstream outFile;
+    outFile.open(CSDL, std::ios::trunc);
+    if (!outFile)
+    {
+        return;
+    }
+
+    for (int i = 0; i < this->FoodList.Size(); i++)
+        outFile << this->FoodList[i].GetItem() << ';' << this->FoodList[i].GetName() << ';' << this->FoodList[i].GetType() << ';' << this->FoodList[i].GetPrice() << std::endl;
+    outFile.close();
 }
 
 void Menu::ShowButtonAddFood(SDL_Renderer* des)
@@ -325,6 +363,8 @@ void Menu::AddMoreFood()
         this->FoodList.Push(F);
         //Add Button Freeze
         this->B_Freeze.Push(B_tmp);
+        //Add Button Remove
+        this->B_Remove.Push(B_tmp);
         B_tmp.Free();
         if (FoodList.Size() % NUMBER_OF_MENU_ON_SCREEN == 0)
             AllPage = (FoodList.Size() / NUMBER_OF_MENU_ON_SCREEN) - 1;

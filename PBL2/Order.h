@@ -39,6 +39,8 @@ public:
 
 	void FoodOfOrder(FoodAndDrink&, Button&, Button&, const int&, const int&, const int&, SDL_Renderer*);
 
+	List<FoodAndDrink>& GetList() {return this->FoodItems;}
+
 	//check, show, update PAGE
 	void CheckPage(SDL_Event);
 	void ShowPage(SDL_Renderer*);
@@ -47,7 +49,6 @@ public:
 	
 	void ChangeQuantityFood(SDL_Event);
 	void RemoveFood(SDL_Event, List<FoodAndDrink>&);
-	List<FoodAndDrink> GetFoodItem()const { return FoodItems; }
 	void ShowTotalPrice(const int&, const int&, SDL_Renderer*);
 	int GetTotalPrice()const { return this->TotalPrice; }
 	

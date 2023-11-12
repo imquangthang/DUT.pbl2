@@ -215,21 +215,18 @@ void Menu::CheckEnter(SDL_Event events, const int& enter)
 
             // Xác định ký tự được nhấn dựa trên Shift và Caps Lock
             char pressedChar = 0;
-            if (sym >= SDLK_SPACE && sym <= SDLK_z);
+            if (sym == SDLK_SPACE || sym >= SDLK_a && sym <= SDLK_z)
             {
                 pressedChar = static_cast<char>(isShiftPressed || isCapsLockOn ? toupper(sym) : tolower(sym));
             }
+
             if (pressedChar != 0)
             {
                 // Trả về ký tự
                 if (selectedText.size() < 20)
-                {
                     selectedText += pressedChar;
-                }
                 else
-                {
                     MessageBox(NULL, L"Quá nhiều kí tự", L"Thông Báo", MB_OK | MB_ICONSTOP);
-                }
             }
             else if (sym == SDLK_BACKSPACE && !selectedText.empty())
             {
@@ -244,6 +241,10 @@ void Menu::CheckEnter(SDL_Event events, const int& enter)
                 if (this->price.size() < 20)
                     this->price += static_cast<char>(sym);
                 else MessageBox(NULL, L"Quá nhiều kí tự", L"Thông Báo", MB_OK | MB_ICONSTOP);
+            }
+            else if (sym == SDLK_BACKSPACE && !this->price.empty())
+            {
+                this->price.pop_back();
             }
             else
             {

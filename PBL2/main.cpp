@@ -199,7 +199,6 @@ int main(int argc, char* argv[])
         menu.ShowPage(g_screen);
         menu.DisplayMenu(g_screen);
         menu.ShowButtonAddFood(g_screen);
-        menu.ShowBgAddFood(Add_Food_Background, g_screen);
 
         order.ShowTotalPrice(160, 752, g_screen);
         order.ShowPage(g_screen);
@@ -207,6 +206,7 @@ int main(int argc, char* argv[])
         order.DisplayOrder(g_screen);
         order.ShowBill(Bill_Background, g_screen, Payment_time);
         
+        menu.ShowBgAddFood(Add_Food_Background, g_screen);
 
         //Show Real Time
         std::string Real_time = GetRealTime();

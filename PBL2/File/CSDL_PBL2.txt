@@ -19,3 +19,4 @@ food;Mousse Cacao;banh;29000
 food;Pho Mai Tra Xanh;banh;29000
 food;Pho Mai Chanh Day;banh;29000
 Quang;Thang;Tran;100000
+Duc;Tien;Nguyen;123556

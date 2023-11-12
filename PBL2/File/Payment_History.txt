@@ -1,0 +1,63 @@
+******************************************
+12/11/2023  19:55:16
+Phin Sua Da;drink;ly;6;29000;174000
+Phin Den Da;drink;ly;1;29000;29000
+Bac Xiu;drink;ly;1;29000;29000
+Mocha Macchiato;drink;ly;1;59000;59000
+Cappuccino;drink;ly;1;55000;55000
+Espresso;drink;ly;1;35000;35000
+Tra Sen Vang;drink;ly;1;39000;39000
+Tra Thach Dao;drink;ly;1;39000;39000
+Tra Thanh Dao;drink;ly;1;39000;39000
+Banh My Ca Ri Ga;food;banh;1;19000;19000
+Banh My Ga Xe;food;banh;1;19000;19000
+Tra Thach Vai;drink;ly;1;39000;39000
+dyhjagdya;hjasdhasu;jasdjhas;1;1231223;1231223
+Pho Mai Chanh Day;food;banh;1;29000;29000
+Pho Mai Tra Xanh;food;banh;1;29000;29000
+Banh Chuoi;food;banh;1;19000;19000
+Mousse Dao;food;banh;1;29000;29000
+Mousse Cacao;food;banh;1;29000;29000
+Tiramisu;food;banh;1;19000;19000
+Banh My Nam;food;banh;1;19000;19000
+Banh My Ca Ngu;food;banh;1;19000;19000
+1998223
+******************************************
+12/11/2023  19:59:14
+Phin Sua Da;drink;ly;1;29000;29000
+Phin Den Da;drink;ly;1;29000;29000
+Bac Xiu;drink;ly;1;29000;29000
+Espresso;drink;ly;1;35000;35000
+122000
+******************************************
+12/11/2023  20:00:16
+Phin Sua Da;drink;ly;1;29000;29000
+Phin Den Da;drink;ly;1;29000;29000
+Cappuccino;drink;ly;1;55000;55000
+113000
+******************************************
+12/11/2023  20:04:53
+Phin Sua Da;drink;ly;1;29000;29000
+Phin Den Da;drink;ly;1;29000;29000
+58000
+******************************************
+12/11/2023  20:04:59
+Phin Sua Da;drink;ly;1;29000;29000
+Phin Den Da;drink;ly;1;29000;29000
+Bac Xiu;drink;ly;1;29000;29000
+Espresso;drink;ly;1;35000;35000
+Cappuccino;drink;ly;1;55000;55000
+Mocha Macchiato;drink;ly;1;59000;59000
+236000
+******************************************
+12/11/2023  20:05:09
+Phin Sua Da;drink;ly;1;29000;29000
+Espresso;drink;ly;1;35000;35000
+Tra Sen Vang;drink;ly;1;39000;39000
+Tra Thach Dao;drink;ly;1;39000;39000
+Banh My Ga Xe;food;banh;1;19000;19000
+161000
+******************************************
+12/11/2023  20:05:40
+fjkhsjfhj;aksnjkjlas;kdkjlas;14;223;3122
+3122

@@ -68,7 +68,7 @@ bool Menu::Add()
     B_tmp.Free();
     inFile.close();
     if (FoodList.Size() % NUMBER_OF_MENU_ON_SCREEN == 0)
-        AllPage = (FoodList.Size() / NUMBER_OF_MENU_ON_SCREEN)-1;
+        AllPage = (FoodList.Size() / NUMBER_OF_MENU_ON_SCREEN) - 1;
     else AllPage = (FoodList.Size() / NUMBER_OF_MENU_ON_SCREEN);
 
     return true;

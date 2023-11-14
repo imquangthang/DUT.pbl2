@@ -4,11 +4,13 @@
 #include "MenuOfAdmin.h"
 #include "Text.h"
 #include "Order.h"
+#include "Shift.h"
 #undef main
 
 BaseObject g_background;
 BaseObject Bill_Background;
 BaseObject Add_Food_Background;
+BaseObject Change_Shift_Background;
 TTF_Font* font = NULL;
 
 bool InitData()
@@ -60,6 +62,8 @@ bool LoadBackground()
     Bill_Background.SetRect(500, 40);
     bool ret3 = Add_Food_Background.LoadImg(Background_AddFood, g_screen);
     Add_Food_Background.SetRect(500, 100);
+    bool ret4 = Change_Shift_Background.LoadImg(Background_ChangeShift, g_screen);
+    Change_Shift_Background.SetRect(500, 100);
     return (ret1 && ret2 && ret3);
 }
 
@@ -111,6 +115,7 @@ void Close()
     g_background.Free();
     Bill_Background.Free();
     Add_Food_Background.Free();
+    Change_Shift_Background.Free();
 
     SDL_DestroyRenderer(g_screen);
     g_screen = NULL;
@@ -138,6 +143,9 @@ int main(int argc, char* argv[])
     //make Order
     Order order;
 
+    //make Shift
+    Shift shift;
+
     //make Real Time
     Text RealTime;
     RealTime.SetColor(Text::RED_TEXT);
@@ -162,6 +170,9 @@ int main(int argc, char* argv[])
 
             if (paused == PAUSE::not_pause) 
             {
+                if (shift.CheckChangeShift(g_event))
+                    paused = PAUSE::pause_change_shift;
+
                 menu.CheckPage(g_event);
                 menu.CheckFreeze(g_event);
                 if (menu.CheckAddMoreFood(g_event))
@@ -190,6 +201,11 @@ int main(int argc, char* argv[])
                 if (menu.CheckCloseAddFood(g_event))
                     paused = PAUSE::not_pause;
             }
+            else if (paused == PAUSE::pause_change_shift)
+            {
+                if(shift.CheckCloseChangeShift(g_event))
+                    paused = PAUSE::not_pause;
+            }
         }
 
         SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
@@ -197,6 +213,8 @@ int main(int argc, char* argv[])
 
         
         g_background.Render(g_screen, NULL);
+
+        shift.ShowShift(g_screen);
 
         menu.ShowPage(g_screen);
         menu.DisplayMenu(g_screen);
@@ -208,6 +226,7 @@ int main(int argc, char* argv[])
         order.DisplayOrder(g_screen);
         order.ShowBill(Bill_Background, g_screen, Payment_time);
         
+        shift.ShowBgChangeShift(Change_Shift_Background, g_screen);
         menu.ShowBgAddFood(Add_Food_Background, g_screen);
 
         //Show Real Time

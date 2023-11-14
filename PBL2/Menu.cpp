@@ -227,10 +227,12 @@ bool Menu::CheckCloseAddFood(SDL_Event events)
     }
     else if (this->B_AddFood.CheckMouse(events))
     {
-        this->status_add_food = false;
-        AddMoreFood();
-        ClearAddFood();
-        return true;
+        if (AddMoreFood())
+        {
+            this->status_add_food = false;
+            return true;
+        }
+        else return false;
     }
     else return false;
 }
@@ -340,35 +342,48 @@ void Menu::ClearAddFood()
     this->price.clear();
 }
 
-void Menu::AddMoreFood()
+bool Menu::AddMoreFood()
 {
-    // Mở file bằn hàm ofstream và add món ăn vào FoodList
-    std::ofstream outFile;
-    outFile.open(CSDL, std::ios::app);
-    if (!outFile)
+    if (this->name.empty() || this->item.empty() || this->type.empty() || this->price.empty())
     {
-        return;
+        MessageBox(NULL, L"Dữ Liệu Sai!!!", L"Thông Báo", MB_OK | MB_ICONSTOP);
+        return false;
     }
-    outFile << std::endl << this->item << ';' << this->name << ';' << this->type << ';' << this->price;
-    outFile.close();
+    else
+    {
+        // Mở file bằn hàm ofstream và add món ăn vào FoodList
+        std::ofstream outFile;
+        outFile.open(CSDL, std::ios::app);
+        if (!outFile)
+        {
+            return false;
+        }
+        outFile << std::endl << this->item << ';' << this->name << ';' << this->type << ';' << this->price;
+        outFile.close();
 
-    //add vào vector foodlist
-        FoodAndDrink F;
-        Button B_tmp;
-        F.SetName(this->name);
-        F.SetItem(this->item);
-        int p_tmp = std::stoi(this->price);
-        F.SetPrice(p_tmp);
-        F.SetType(this->type);
-        this->FoodList.Push(F);
-        //Add Button Freeze
-        this->B_Freeze.Push(B_tmp);
-        //Add Button Remove
-        this->B_Remove.Push(B_tmp);
-        B_tmp.Free();
-        if (FoodList.Size() % NUMBER_OF_MENU_ON_SCREEN == 0)
-            AllPage = (FoodList.Size() / NUMBER_OF_MENU_ON_SCREEN) - 1;
-        else AllPage = (FoodList.Size() / NUMBER_OF_MENU_ON_SCREEN);
+        //add vào vector foodlist
+            FoodAndDrink F;
+            Button B_tmp;
+            F.SetName(this->name);
+            F.SetItem(this->item);
+            int p_tmp = std::stoi(this->price);
+            F.SetPrice(p_tmp);
+            F.SetType(this->type);
+            this->FoodList.Push(F);
+            //Add Button Freeze
+            this->B_Freeze.Push(B_tmp);
+            //Add Button Remove
+            this->B_Remove.Push(B_tmp);
+            B_tmp.Free();
+            if (FoodList.Size() % NUMBER_OF_MENU_ON_SCREEN == 0)
+                AllPage = (FoodList.Size() / NUMBER_OF_MENU_ON_SCREEN) - 1;
+            else AllPage = (FoodList.Size() / NUMBER_OF_MENU_ON_SCREEN);
+
+            //Clear
+            ClearAddFood();
+
+            return true;
+    }
 
 }
 

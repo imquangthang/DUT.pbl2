@@ -48,6 +48,7 @@ enum PAUSE
 	not_pause = 0, 
 	pause_payment = 1,
 	pause_add_food = 2,
+	pause_change_shift = 3,
 };
 
 //ORDER
@@ -76,6 +77,7 @@ const int BILL_Y_BUTTON_RIGHT = 635;
 static char Background_name[] = { "Img//background.png" }; 
 static char Background_Bill[] = { "Img//Bill_background.png" };
 static char Background_AddFood[] = { "Img//AddFood_background.png" };
+static char Background_ChangeShift[] = { "Img//ChangeShift_background.png" };
 static char CSDL[] = { "File//CSDL_PBL2.txt" };
 static char Payment_History[] = { "File//Payment_History.txt" };
 static char Text_Font[] = { "Text Font//times-new-roman.ttf " };
@@ -91,6 +93,11 @@ static char Button_Freeze[] = { "Img//freeze.png" };
 static char Button_Unfreeze[] = { "Img//unfreeze.png" }; 
 static char Button_Add_Food[] = { "Img//button_add_food.png" };
 static char Button_Poiter[] = { "Img//poiter.png" };
+
+static char Button_Shift1[] = { "Img//SHIFT//shift_1_on.png" };
+static char Button_Shift2[] = { "Img//SHIFT//shift_2_on.png" };
+static char Button_Shift3[] = { "Img//SHIFT//shift_3_on.png" };
+static char Button_Shift_Change[] = { "Img//SHIFT//shift_change.png" };
 
 
 #endif

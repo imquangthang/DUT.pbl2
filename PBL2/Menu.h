@@ -49,7 +49,7 @@ public:
 	void ShowBgAddFood(BaseObject&, SDL_Renderer*);
 	bool CheckCloseAddFood(SDL_Event);
 	int CheckLocationAddFood(SDL_Event);
-	void AddMoreFood();
+	bool AddMoreFood();
 	void ClearAddFood();
 	
 	//check enter attribute

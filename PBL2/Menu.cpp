@@ -263,7 +263,7 @@ void Menu::CheckEnter(SDL_Event events, const int& enter)
             if (pressedChar != 0)
             {
                 // Trả về ký tự
-                if (selectedText.size() < 20)
+                if (selectedText.size() < 10)
                     selectedText += pressedChar;
                 else
                     MessageBox(NULL, L"Quá nhiều kí tự", L"Thông Báo", MB_OK | MB_ICONSTOP);
@@ -278,7 +278,7 @@ void Menu::CheckEnter(SDL_Event events, const int& enter)
             SDL_Keycode sym = events.key.keysym.sym;
             if (sym >= SDLK_0 && sym <= SDLK_9)
             {
-                if (this->price.size() < 20)
+                if (this->price.size() < 7)
                     this->price += static_cast<char>(sym);
                 else MessageBox(NULL, L"Quá nhiều kí tự", L"Thông Báo", MB_OK | MB_ICONSTOP);
             }

@@ -340,7 +340,7 @@ void Order::RemoveOrder(List<FoodAndDrink>& MenuFood)
     this->FoodItems.Clear();
 }
 
-bool Order::CheckPayment(SDL_Event events, SDL_Renderer* des, std::string Payment_time)
+bool Order::CheckPayment(SDL_Event events, SDL_Renderer* des, std::string Payment_time, const int& shift_number)
 {
     //Check Payment
     if (this->B_Payment.CheckMouse(events))
@@ -351,7 +351,7 @@ bool Order::CheckPayment(SDL_Event events, SDL_Renderer* des, std::string Paymen
         }
         else
         {
-            Invoicing(Payment_time);
+            Invoicing(Payment_time, shift_number);
             this->is_payment = true;
         }
         //Destroy Button
@@ -550,7 +550,7 @@ bool Order::Check_Close(SDL_Event events, List<FoodAndDrink>& MenuFood)
     }    
 }
 
-void Order::Invoicing(std::string Payment_time)
+void Order::Invoicing(std::string Payment_time, const int& shift_number)
 {
     // Mở file bằn hàm ofstream và add món ăn vào FoodList
     std::ofstream outFile;
@@ -565,9 +565,10 @@ void Order::Invoicing(std::string Payment_time)
     std::string Type;           // Loại
     int Quantity;               // Số Lượng
     int Price;                  // Giá
-    int TotalPriceOfFood;       // Tổng Giá
+    int TotalPriceOfFood;       // Tổng Giás
 
     outFile << "******************************************" << std::endl;
+    outFile << "CA: " << shift_number << std::endl;
     outFile << Payment_time << std::endl;
     for (int i = 0; i < this->FoodItems.Size(); i++)
     {

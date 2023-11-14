@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
                 order.RemoveFood(g_event, MenuFood);
                 order.AddFood(g_event, MenuFood, menu.GetCurrentPage());
                 Payment_time = GetRealTime();
-                if (order.CheckPayment(g_event, g_screen, Payment_time))
+                if (order.CheckPayment(g_event, g_screen, Payment_time, shift.GetShiftNumber()))
                     paused = PAUSE::pause_payment;
             }
             else if(paused == PAUSE::pause_payment)

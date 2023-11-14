@@ -1,4 +1,4 @@
-#include "Shift.h"
+﻿#include "Shift.h"
 
 Shift::Shift()
 {
@@ -39,12 +39,46 @@ bool Shift::CheckChangeShift(SDL_Event events)
 
 bool Shift::CheckSelectShift(SDL_Event events)
 {
+	int tmp = this->shift_number;
 	if (this->B_Shift1.CheckMouse(events))
-		return this->shift_number = SHIFT::Shift_1;
+	{
+		if (tmp == SHIFT::Shift_1)
+		{
+			MessageBox(NULL, L"Đây là Ca làm việc hiện tại!!!", L"Thông Báo", MB_OK | MB_ICONSTOP);
+			return false;
+		}
+		else
+		{
+			MessageBox(NULL, L"Đã đổi sang Ca 1", L"Thông Báo", MB_OK | MB_ICONSTOP);
+			return this->shift_number = SHIFT::Shift_1;
+		}
+	}
 	else if (this->B_Shift2.CheckMouse(events))
-		return this->shift_number = SHIFT::Shift_2;
+	{
+		if (tmp == SHIFT::Shift_2)
+		{
+			MessageBox(NULL, L"Đây là Ca làm việc hiện tại!!!", L"Thông Báo", MB_OK | MB_ICONSTOP);
+			return false;
+		}
+		else
+		{
+			MessageBox(NULL, L"Đã đổi sang Ca 2", L"Thông Báo", MB_OK | MB_ICONSTOP);
+			return this->shift_number = SHIFT::Shift_2;
+		}
+	}
 	else if (this->B_Shift3.CheckMouse(events))
-		return this->shift_number = SHIFT::Shift_3;
+	{
+		if (tmp == SHIFT::Shift_3)
+		{
+			MessageBox(NULL, L"Đây là Ca làm việc hiện tại!!!", L"Thông Báo", MB_OK | MB_ICONSTOP);
+			return false;
+		}
+		else
+		{
+			MessageBox(NULL, L"Đã đổi sang Ca 3", L"Thông Báo", MB_OK | MB_ICONSTOP);
+			return this->shift_number = SHIFT::Shift_3;
+		}
+	}
 
 	return false;
 }

@@ -3,12 +3,14 @@
 
 #include "CommonFunc.h"
 #include "Button.h"
+#include "FoodAndDrink.h"
 
 class Shift
 {
 private:
 	int shift_number;
 	bool status_change_shift;
+	List<FoodAndDrink> FoodOfShift;
 	Button B_Change_Shift;
 	Button B_Current_Shift;
 	Button B_Shift1;
@@ -32,6 +34,8 @@ public:
 	bool CheckChangeShift(SDL_Event);
 	bool CheckSelectShift(SDL_Event);
 	bool CheckCloseChangeShift(SDL_Event);
+	
+	int GetShiftNumber() const { return this->shift_number; }
 };
 
 

@@ -52,9 +52,8 @@ bool Shift::CheckSelectShift(SDL_Event events, std::string time)
 		else
 		{
 			MessageBox(NULL, L"Đã đổi sang Ca 1", L"Thông Báo", MB_OK | MB_ICONSTOP);
-			//set time and add to file
-			this->CheckOut = time;
-			AddToFile();
+			//set time to file add new time check in
+			AddToFile(time);
 			this->CheckIn = time;
 
 			return this->shift_number = SHIFT::Shift_1;
@@ -70,9 +69,8 @@ bool Shift::CheckSelectShift(SDL_Event events, std::string time)
 		else
 		{
 			MessageBox(NULL, L"Đã đổi sang Ca 2", L"Thông Báo", MB_OK | MB_ICONSTOP);
-			//set time and add to file
-			this->CheckOut = time;
-			AddToFile();
+			//set time to file add new time check in
+			AddToFile(time);
 			this->CheckIn = time;
 
 			return this->shift_number = SHIFT::Shift_2;
@@ -88,9 +86,8 @@ bool Shift::CheckSelectShift(SDL_Event events, std::string time)
 		else
 		{
 			MessageBox(NULL, L"Đã đổi sang Ca 3", L"Thông Báo", MB_OK | MB_ICONSTOP);
-			//set time and add to file
-			this->CheckOut = time;
-			AddToFile();
+			//set time to file add new time check in
+			AddToFile(time);
 			this->CheckIn = time;
 
 			return this->shift_number = SHIFT::Shift_3;
@@ -138,8 +135,9 @@ void Shift::AddPrice(const int& price)
 	this->TotalPriceOfShift += price;
 }
 
-void Shift::AddToFile()
+void Shift::AddToFile(std::string time)
 {
+	this->CheckOut = time;
 	std::ofstream outFile;
 	outFile.open(Shift_History, std::ios::app);
 	if (!outFile)

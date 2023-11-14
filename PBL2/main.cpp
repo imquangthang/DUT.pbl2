@@ -245,6 +245,9 @@ int main(int argc, char* argv[])
         }
     }
 
+    //Check out ca làm việc cuối
+    shift.AddToFile(GetRealTime());
+
     Close();
 
     return 0;

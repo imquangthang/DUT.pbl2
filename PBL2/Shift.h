@@ -40,7 +40,7 @@ public:
 	int GetShiftNumber() const { return this->shift_number; }
 
 	void AddPrice(const int&);
-	void AddToFile();
+	void AddToFile(std::string);
 };
 
 

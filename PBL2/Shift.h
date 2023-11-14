@@ -10,7 +10,9 @@ class Shift
 private:
 	int shift_number;
 	bool status_change_shift;
-	List<FoodAndDrink> FoodOfShift;
+	std::string CheckIn;
+	std::string CheckOut;
+	int TotalPriceOfShift;
 	Button B_Change_Shift;
 	Button B_Current_Shift;
 	Button B_Shift1;
@@ -26,16 +28,19 @@ public:
 		Shift_2 = 2,
 		Shift_3 = 3,
 	};
-	Shift();
+	Shift(std::string = "");
 	~Shift();
 
 	void ShowShift(SDL_Renderer*);
 	void ShowBgChangeShift(BaseObject&, SDL_Renderer*);
 	bool CheckChangeShift(SDL_Event);
-	bool CheckSelectShift(SDL_Event);
-	bool CheckCloseChangeShift(SDL_Event);
+	bool CheckSelectShift(SDL_Event, std::string);
+	bool CheckCloseChangeShift(SDL_Event, std::string);
 	
 	int GetShiftNumber() const { return this->shift_number; }
+
+	void AddPrice(const int&);
+	void AddToFile();
 };
 
 

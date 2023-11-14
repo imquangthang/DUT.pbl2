@@ -144,7 +144,7 @@ int main(int argc, char* argv[])
     Order order;
 
     //make Shift
-    Shift shift;
+    Shift shift(GetRealTime());
 
     //make Real Time
     Text RealTime;
@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
                 order.RemoveFood(g_event, MenuFood);
                 order.AddFood(g_event, MenuFood, menu.GetCurrentPage());
                 Payment_time = GetRealTime();
-                if (order.CheckPayment(g_event, g_screen, Payment_time, shift.GetShiftNumber()))
+                if (order.CheckPayment(g_event, g_screen, Payment_time, shift.GetShiftNumber(), shift))
                     paused = PAUSE::pause_payment;
             }
             else if(paused == PAUSE::pause_payment)
@@ -203,7 +203,7 @@ int main(int argc, char* argv[])
             }
             else if (paused == PAUSE::pause_change_shift)
             {
-                if(shift.CheckCloseChangeShift(g_event))
+                if(shift.CheckCloseChangeShift(g_event, GetRealTime()))
                     paused = PAUSE::not_pause;
             }
         }

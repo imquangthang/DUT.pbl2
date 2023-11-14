@@ -1,6 +1,6 @@
 ﻿#include "Shift.h"
 
-Shift::Shift()
+Shift::Shift(std::string time_check_in) : CheckIn(time_check_in)
 {
 	this->shift_number = SHIFT::Shift_1;
 	this->status_change_shift = false;
@@ -10,6 +10,8 @@ Shift::Shift()
 	this->B_Shift1.SetButtonRect(556, 180);
 	this->B_Shift2.SetButtonRect(723, 180);
 	this->B_Shift3.SetButtonRect(890, 180);
+	this->CheckOut = "";
+	this->TotalPriceOfShift = 0;
 }
 
 Shift::~Shift()
@@ -37,7 +39,7 @@ bool Shift::CheckChangeShift(SDL_Event events)
 	return this->status_change_shift;
 }
 
-bool Shift::CheckSelectShift(SDL_Event events)
+bool Shift::CheckSelectShift(SDL_Event events, std::string time)
 {
 	int tmp = this->shift_number;
 	if (this->B_Shift1.CheckMouse(events))
@@ -50,6 +52,11 @@ bool Shift::CheckSelectShift(SDL_Event events)
 		else
 		{
 			MessageBox(NULL, L"Đã đổi sang Ca 1", L"Thông Báo", MB_OK | MB_ICONSTOP);
+			//set time and add to file
+			this->CheckOut = time;
+			AddToFile();
+			this->CheckIn = time;
+
 			return this->shift_number = SHIFT::Shift_1;
 		}
 	}
@@ -63,6 +70,11 @@ bool Shift::CheckSelectShift(SDL_Event events)
 		else
 		{
 			MessageBox(NULL, L"Đã đổi sang Ca 2", L"Thông Báo", MB_OK | MB_ICONSTOP);
+			//set time and add to file
+			this->CheckOut = time;
+			AddToFile();
+			this->CheckIn = time;
+
 			return this->shift_number = SHIFT::Shift_2;
 		}
 	}
@@ -76,6 +88,11 @@ bool Shift::CheckSelectShift(SDL_Event events)
 		else
 		{
 			MessageBox(NULL, L"Đã đổi sang Ca 3", L"Thông Báo", MB_OK | MB_ICONSTOP);
+			//set time and add to file
+			this->CheckOut = time;
+			AddToFile();
+			this->CheckIn = time;
+
 			return this->shift_number = SHIFT::Shift_3;
 		}
 	}
@@ -83,9 +100,9 @@ bool Shift::CheckSelectShift(SDL_Event events)
 	return false;
 }
 
-bool Shift::CheckCloseChangeShift(SDL_Event events)
+bool Shift::CheckCloseChangeShift(SDL_Event events, std::string time)
 {
-	if (this->B_CloseChangeShift.CheckMouse(events) || CheckSelectShift(events))
+	if (this->B_CloseChangeShift.CheckMouse(events) || CheckSelectShift(events, time))
 		this->status_change_shift = false;
 
 	return !this->status_change_shift;
@@ -114,4 +131,28 @@ void Shift::ShowBgChangeShift(BaseObject& CS_bg, SDL_Renderer* des)
 		this->B_Shift3.Render(des);
 		
 	}
+}
+
+void Shift::AddPrice(const int& price)
+{
+	this->TotalPriceOfShift += price;
+}
+
+void Shift::AddToFile()
+{
+	std::ofstream outFile;
+	outFile.open(Shift_History, std::ios::app);
+	if (!outFile)
+	{
+		return;
+	}
+
+	outFile << "******************************************" << std::endl;
+	outFile << "CA: " << this->shift_number << std::endl;
+	outFile << "Gio Check In: " << this->CheckIn << std::endl;
+	outFile << "Gio Check Out: " << this->CheckOut << std::endl;
+	outFile << "Tong Tien: " << this->TotalPriceOfShift << std::endl;
+
+	//reset
+	this->TotalPriceOfShift = 0;
 }

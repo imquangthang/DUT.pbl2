@@ -139,14 +139,14 @@ void Shift::AddToFile(std::string time)
 {
 	this->CheckOut = time;
 	std::ofstream outFile;
-	outFile.open(Shift_History, std::ios::app);
+	outFile.open(Payment_History, std::ios::app);
 	if (!outFile)
 	{
 		return;
 	}
 
 	outFile << "******************************************" << std::endl;
-	outFile << "CA: " << this->shift_number << std::endl;
+	outFile << "Ket Thuc CA: " << this->shift_number << std::endl;
 	outFile << "Gio Check In: " << this->CheckIn << std::endl;
 	outFile << "Gio Check Out: " << this->CheckOut << std::endl;
 	outFile << "Tong Tien: " << this->TotalPriceOfShift << std::endl;

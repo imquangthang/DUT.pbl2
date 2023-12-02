@@ -87,7 +87,7 @@ static char Background_Pbl2[] = { "Img//Pbl2_background.png" };
 static char Background_Login[] = { "Img//Login_background.png" };
 static char Background_Bill[] = { "Img//Bill_background.png" };
 static char Background_AddFood[] = { "Img//AddFood_background.png" };
-static char Background_ChooseShift[] = { "Img//ChangeShift_background.png" };
+static char Background_ChooseShift[] = { "Img//ChooseShift_background.png" };
 static char Account_file[] = { "File//Account.txt" };
 static char CSDL[] = { "File//Menu.txt" };
 static char Payment_History[] = { "File/Payment_History/" }; 
@@ -107,9 +107,10 @@ static char Button_Poiter[] = { "Img//poiter.png" };
 static char Button_Login[] = { "Img//login.png" };
 static char Button_HideMK[] = { "Img//Hide_icon.png" };
 
-static char Button_Shift1[] = { "Img//SHIFT//shift_1_on.png" };
-static char Button_Shift2[] = { "Img//SHIFT//shift_2_on.png" };
-static char Button_Shift3[] = { "Img//SHIFT//shift_3_on.png" };
+static char Button_Shift1[] = { "Img//SHIFT//B_choose_shift1.png" };
+static char Button_Shift2[] = { "Img//SHIFT//B_choose_shift2.png" };
+static char Button_Shift3[] = { "Img//SHIFT//B_choose_shift3.png" };
+static char Button_Shift[] = { "Img//SHIFT//B_shift" };
 static char Button_Logout[] = { "Img//SHIFT//shift_choose.png" };
 
 

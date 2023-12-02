@@ -66,7 +66,6 @@ bool LoadBackground()
     bool ret3 = Add_Food_Background.LoadImg(Background_AddFood, g_screen);
     Add_Food_Background.SetRect(500, 100);
     bool ret4 = Choose_Shift_Background.LoadImg(Background_ChooseShift, g_screen);
-    Choose_Shift_Background.SetRect(500, 100);
     bool ret5 = PBL2_background.LoadImg(Background_Pbl2, g_screen);
     bool ret6 = Login_Background.LoadImg(Background_Login, g_screen);
 
@@ -96,6 +95,7 @@ bool CheckFile(std::string name_file)
 
 std::string GetRealTime()
 {
+    std::locale::global(std::locale("vi_VN.UTF-8"));
     auto currentTime = std::chrono::system_clock::now();
     std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
 
@@ -111,7 +111,7 @@ std::string GetRealTime()
     else month = std::to_string(now.tm_mon + 1);
 
     std::string day; // Ngày hiện tại
-    if (now.tm_mday + 1 < 10)
+    if (now.tm_mday < 10)
         day = '0' + std::to_string(now.tm_mday);
     else day = std::to_string(now.tm_mday);
 
@@ -139,6 +139,7 @@ std::string GetRealTime()
 
 std::string GetRealDate()
 {
+    std::locale::global(std::locale("vi_VN.UTF-8"));
     auto currentTime = std::chrono::system_clock::now();
     std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
 
@@ -154,7 +155,7 @@ std::string GetRealDate()
     else month = std::to_string(now.tm_mon + 1);
 
     std::string day; // Ngày hiện tại
-    if (now.tm_mday + 1 < 10)
+    if (now.tm_mday < 10)
         day = '0' + std::to_string(now.tm_mday);
     else day = std::to_string(now.tm_mday);
 

@@ -14,9 +14,9 @@ private:
 	int TotalPriceOfShift;
 	Button B_Logout;
 	Button B_Current_Shift;
-	Button B_Shift1;
-	Button B_Shift2;
-	Button B_Shift3;
+	Button B_Shift1_Choose;
+	Button B_Shift2_Choose;
+	Button B_Shift3_Choose;
 
 public:
 	enum SHIFT

@@ -5,9 +5,9 @@ Shift::Shift(std::string time_check_in) : CheckIn(time_check_in)
 	this->shift_number = 0;
 	this->B_Logout.SetButtonRect(650, 755);
 	this->B_Current_Shift.SetButtonRect(650, 58);
-	this->B_Shift1.SetButtonRect(556, 180);
-	this->B_Shift2.SetButtonRect(723, 180);
-	this->B_Shift3.SetButtonRect(890, 180);
+	this->B_Shift1_Choose.SetButtonRect(350, 400);
+	this->B_Shift2_Choose.SetButtonRect(650, 400);
+	this->B_Shift3_Choose.SetButtonRect(950, 400);
 	this->CheckOut = "";
 	this->TotalPriceOfShift = 0;
 }
@@ -19,11 +19,7 @@ Shift::~Shift()
 
 void Shift::ShowShift(SDL_Renderer* des)
 {
-	if(this->shift_number == SHIFT::Shift_1)
-		this->B_Current_Shift.LoadImg(Button_Shift1, des);
-	else if(this->shift_number == SHIFT::Shift_2)
-		this->B_Current_Shift.LoadImg(Button_Shift2, des);
-	else this->B_Current_Shift.LoadImg(Button_Shift3, des);
+	this->B_Current_Shift.LoadImg(Button_Shift + std::to_string(this->shift_number) + ".png", des);
 	this->B_Current_Shift.Render(des);
 
 	this->B_Logout.LoadImg(Button_Logout, des);
@@ -32,7 +28,7 @@ void Shift::ShowShift(SDL_Renderer* des)
 
 bool Shift::CheckSelectShift(SDL_Event events, std::string time, std::string date)
 {
-	if (this->B_Shift1.CheckMouse(events))
+	if (this->B_Shift1_Choose.CheckMouse(events))
 	{
 		MessageBox(NULL, L"Đã Chọn Ca 1", L"Thông Báo", MB_OK | MB_ICONSTOP);
 		//set time check in
@@ -40,7 +36,7 @@ bool Shift::CheckSelectShift(SDL_Event events, std::string time, std::string dat
 
 		return this->shift_number = SHIFT::Shift_1;	
 	}
-	else if (this->B_Shift2.CheckMouse(events))
+	else if (this->B_Shift2_Choose.CheckMouse(events))
 	{
 		MessageBox(NULL, L"Đã Chọn Ca 2", L"Thông Báo", MB_OK | MB_ICONSTOP);
 		//set time check in
@@ -48,7 +44,7 @@ bool Shift::CheckSelectShift(SDL_Event events, std::string time, std::string dat
 
 		return this->shift_number = SHIFT::Shift_2;
 	}
-	else if (this->B_Shift3.CheckMouse(events))
+	else if (this->B_Shift3_Choose.CheckMouse(events))
 	{
 		MessageBox(NULL, L"Đã Chọn Ca 3", L"Thông Báo", MB_OK | MB_ICONSTOP);
 		//set time check in
@@ -85,14 +81,14 @@ void Shift::ShowBgSelectShift(BaseObject& CS_bg, SDL_Renderer* des)
 	CS_bg.Render(des, NULL);
 
 	//show button Shift
-	this->B_Shift1.LoadImg(Button_Shift1, des);
-	this->B_Shift1.Render(des);
+	this->B_Shift1_Choose.LoadImg(Button_Shift1, des);
+	this->B_Shift1_Choose.Render(des);
 
-	this->B_Shift2.LoadImg(Button_Shift2, des);
-	this->B_Shift2.Render(des);
+	this->B_Shift2_Choose.LoadImg(Button_Shift2, des);
+	this->B_Shift2_Choose.Render(des);
 
-	this->B_Shift3.LoadImg(Button_Shift3, des);
-	this->B_Shift3.Render(des);
+	this->B_Shift3_Choose.LoadImg(Button_Shift3, des);
+	this->B_Shift3_Choose.Render(des);
 }
 
 void Shift::AddPrice(const int& price)

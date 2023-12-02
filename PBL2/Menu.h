@@ -39,6 +39,7 @@ public:
 	void CheckFreeze(SDL_Event);
 	void CheckRemove(SDL_Event, List<FoodAndDrink>&);
 	void RemoveFood(const int&);
+	void SetDefaultCurrentPage();
 	int GetCurrentPage()const { return this->CurrentPage; }
 	List<FoodAndDrink>& GetList() { return this->FoodList; }
 	void CheckPage(SDL_Event);

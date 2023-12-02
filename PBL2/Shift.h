@@ -9,19 +9,16 @@ class Shift
 {
 private:
 	int shift_number;
-	bool status_change_shift;
 	std::string CheckIn;
 	std::string CheckOut;
 	int TotalPriceOfShift;
-	Button B_Change_Shift;
+	Button B_Logout;
 	Button B_Current_Shift;
 	Button B_Shift1;
 	Button B_Shift2;
 	Button B_Shift3;
-	Button B_CloseChangeShift;
 
 public:
-
 	enum SHIFT
 	{
 		Shift_1 = 1,
@@ -32,15 +29,15 @@ public:
 	~Shift();
 
 	void ShowShift(SDL_Renderer*);
-	void ShowBgChangeShift(BaseObject&, SDL_Renderer*);
-	bool CheckChangeShift(SDL_Event);
-	bool CheckSelectShift(SDL_Event, std::string);
-	bool CheckCloseChangeShift(SDL_Event, std::string);
+	void ShowBgSelectShift(BaseObject&, SDL_Renderer*);
+	bool CheckSelectShift(SDL_Event, std::string, std::string);
+	bool CheckCloseSelectShift(SDL_Event, std::string, std::string);
+	bool CheckLogout(SDL_Event, std::string, std::string, std::string);
 	
 	int GetShiftNumber() const { return this->shift_number; }
 
 	void AddPrice(const int&);
-	void AddToFile(std::string);
+	void AddToFile(std::string, std::string, std::string);
 };
 
 

@@ -340,7 +340,7 @@ void Order::RemoveOrder(List<FoodAndDrink>& MenuFood)
     this->FoodItems.Clear();
 }
 
-bool Order::CheckPayment(SDL_Event events, SDL_Renderer* des, std::string Payment_time, const int& shift_number, Shift& shift)
+bool Order::CheckPayment(SDL_Event events, SDL_Renderer* des, std::string Payment_time, const int& shift_number, Shift& shift, std::string date, std::string MaNV)
 {
     //Check Payment
     if (this->B_Payment.CheckMouse(events))
@@ -351,7 +351,7 @@ bool Order::CheckPayment(SDL_Event events, SDL_Renderer* des, std::string Paymen
         }
         else
         {
-            Invoicing(Payment_time, shift_number, shift);
+            Invoicing(Payment_time, shift_number, shift, date, MaNV);
             this->is_payment = true;
         }
         //Destroy Button
@@ -550,11 +550,11 @@ bool Order::Check_Close(SDL_Event events, List<FoodAndDrink>& MenuFood)
     }    
 }
 
-void Order::Invoicing(std::string Payment_time, const int& shift_number, Shift& shift)
+void Order::Invoicing(std::string Payment_time, const int& shift_number, Shift& shift, std::string date, std::string MaNV)
 {
     // Mở file bằn hàm ofstream và add món ăn vào FoodList
     std::ofstream outFile;
-    outFile.open(Payment_History, std::ios::app);
+    outFile.open(Payment_History + date + ".txt", std::ios::app);
     if (!outFile)
     {
         return;
@@ -569,6 +569,7 @@ void Order::Invoicing(std::string Payment_time, const int& shift_number, Shift& 
 
     outFile << "******************************************" << std::endl;
     outFile << "CA: " << shift_number << std::endl;
+    outFile << "Nhan Vien: " << MaNV << std::endl;
     outFile << Payment_time << std::endl;
     for (int i = 0; i < this->FoodItems.Size(); i++)
     {

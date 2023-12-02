@@ -13,6 +13,7 @@ FoodAndDrink::FoodAndDrink()
 	this->m_page = 0;
 	this->o_page = 0;
 	this->price = 0;
+	this->quantity = 0;
 }
 
 FoodAndDrink::~FoodAndDrink()

@@ -1,16 +1,19 @@
 ﻿#include "BaseObject.h"
 #include "CommonFunc.h"
 #include "FoodAndDrink.h"
-#include "MenuOfAdmin.h"
 #include "Text.h"
+#include "MenuOfAdmin.h"
 #include "Order.h"
 #include "Shift.h"
+#include "Login.h"
 #undef main
 
+BaseObject PBL2_background;
+BaseObject Login_Background;
 BaseObject g_background;
 BaseObject Bill_Background;
 BaseObject Add_Food_Background;
-BaseObject Change_Shift_Background;
+BaseObject Choose_Shift_Background;
 TTF_Font* font = NULL;
 
 bool InitData()
@@ -62,9 +65,33 @@ bool LoadBackground()
     Bill_Background.SetRect(500, 40);
     bool ret3 = Add_Food_Background.LoadImg(Background_AddFood, g_screen);
     Add_Food_Background.SetRect(500, 100);
-    bool ret4 = Change_Shift_Background.LoadImg(Background_ChangeShift, g_screen);
-    Change_Shift_Background.SetRect(500, 100);
-    return (ret1 && ret2 && ret3);
+    bool ret4 = Choose_Shift_Background.LoadImg(Background_ChooseShift, g_screen);
+    Choose_Shift_Background.SetRect(500, 100);
+    bool ret5 = PBL2_background.LoadImg(Background_Pbl2, g_screen);
+    bool ret6 = Login_Background.LoadImg(Background_Login, g_screen);
+
+    return (ret1 && ret2 && ret3 && ret5 && ret6);
+}
+
+void CreatNewFile(std::string name_file)
+{
+    std::ofstream outfile(Payment_History + name_file + ".txt");
+    if (outfile.is_open()) {
+        std::cout << "File created successfully." << std::endl;
+        outfile.close();
+    }
+    else {
+        std::cout << "Error creating file." << std::endl;
+    }
+}
+
+bool CheckFile(std::string name_file)
+{
+    std::string file_name = Payment_History + name_file + ".txt";
+    std::ifstream infile(file_name);
+    if (infile.good())
+        return true;
+    else return false;
 }
 
 std::string GetRealTime()
@@ -74,19 +101,19 @@ std::string GetRealTime()
 
     // Sử dụng struct tm để trích xuất ngày và giờ
     struct std::tm now;
-    localtime_s(&now, &time);
+    localtime_s(&now, &time); 
 
     // Lấy ngày
     std::string year = std::to_string(now.tm_year + 1900);  // Năm hiện tại
     std::string month; // Tháng hiện tại
-    if(now.tm_mon+1 < 10) 
-         month = '0'+std::to_string(now.tm_mon + 1);
+    if (now.tm_mon + 1 < 10)
+        month = '0' + std::to_string(now.tm_mon + 1);
     else month = std::to_string(now.tm_mon + 1);
 
     std::string day; // Ngày hiện tại
-    if (now.tm_mday + 1 < 10) 
-         day = '0' + std::to_string(now.tm_mday + 1);
-    else day = std::to_string(now.tm_mday + 1);        
+    if (now.tm_mday + 1 < 10)
+        day = '0' + std::to_string(now.tm_mday);
+    else day = std::to_string(now.tm_mday);
 
     // Lấy giờ
     std::string hour; // Giờ hiện tại
@@ -107,7 +134,32 @@ std::string GetRealTime()
     std::string D_M_Y = day + '/' + month + '/' + year;
     std::string H_M_S = hour + ':' + minute + ':' + second;
 
-    return D_M_Y + "  " + H_M_S;
+    return D_M_Y + ' ' + H_M_S;
+}
+
+std::string GetRealDate()
+{
+    auto currentTime = std::chrono::system_clock::now();
+    std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
+
+    // Sử dụng struct tm để trích xuất ngày và giờ
+    struct std::tm now;
+    localtime_s(&now, &time);
+
+    // Lấy ngày
+    std::string year = std::to_string(now.tm_year + 1900);  // Năm hiện tại
+    std::string month; // Tháng hiện tại
+    if (now.tm_mon + 1 < 10)
+        month = '0' + std::to_string(now.tm_mon + 1);
+    else month = std::to_string(now.tm_mon + 1);
+
+    std::string day; // Ngày hiện tại
+    if (now.tm_mday + 1 < 10)
+        day = '0' + std::to_string(now.tm_mday);
+    else day = std::to_string(now.tm_mday);
+
+    std::string D_M_Y = day + '_' + month + '_' + year;
+    return D_M_Y;
 }
 
 void Close()
@@ -115,7 +167,9 @@ void Close()
     g_background.Free();
     Bill_Background.Free();
     Add_Food_Background.Free();
-    Change_Shift_Background.Free();
+    Choose_Shift_Background.Free();
+    PBL2_background.Free();
+    Login_Background.Free();
 
     SDL_DestroyRenderer(g_screen);
     g_screen = NULL;
@@ -136,12 +190,21 @@ int main(int argc, char* argv[])
     if (LoadBackground() == false)
         return -1;
 
+    //make Account
+    Login Account;
+    if (!Account.AddList())
+        return -1;
+
     //make Menu
     MenuOfAdmin menu;
-    if (menu.Add() == false)
+    if (!menu.Add())
         return -1;
     //make Order
     Order order;
+
+    //make Folder để lưu lịch sử thanh toán
+    if (!CheckFile(GetRealDate()))
+        CreatNewFile(GetRealDate());
 
     //make Shift
     Shift shift(GetRealTime());
@@ -151,8 +214,10 @@ int main(int argc, char* argv[])
     RealTime.SetColor(Text::RED_TEXT);
 
     int paused = PAUSE::not_pause;
+    int status = STATUS::background;
     bool is_quit = false;
-    int enter = 0;
+    int enter_addfood = 0;
+    int enter_login = 0;
     Uint32 frame_start = 0;
     int frame_time = 0;
     std::string Payment_time;
@@ -161,92 +226,133 @@ int main(int argc, char* argv[])
         frame_start = SDL_GetTicks();
         while (SDL_PollEvent(&g_event) != 0)
         {
-            List<FoodAndDrink>& MenuFood = menu.GetList();
-            List<FoodAndDrink>& OrderFood = order.GetList();
             if (g_event.type == SDL_QUIT)
             {
                 is_quit = true;
             }
 
-            if (paused == PAUSE::not_pause) 
+            if (status == STATUS::background)
+            {                
+                if (g_event.type == SDL_KEYDOWN)
+                    status = STATUS::login;
+            }
+            else if (status == STATUS::login)
             {
-                if (shift.CheckChangeShift(g_event))
-                    paused = PAUSE::pause_change_shift;
+                if(paused == PAUSE::not_pause)
+                {
+                    if (Account.CheckLocationLogin(g_event) != -1)
+                        enter_login = Account.CheckLocationLogin(g_event);
+                    Account.CheckEnter(g_event, enter_login);
+                    Account.CheckHideMk(g_event);
+                    if (Account.CheckLogin(g_event))
+                        paused = PAUSE::pause_choose_shift;
+                }
+                else if (paused == PAUSE::pause_choose_shift)
+                {
+                    if (shift.CheckCloseSelectShift(g_event, GetRealTime(), GetRealDate()))
+                    {
+                        paused = PAUSE::not_pause;
+                        status = STATUS::runApp;
+                    }
+                }
+            }
+            else
+            {
+                List<FoodAndDrink>& MenuFood = menu.GetList();
+                List<FoodAndDrink>& OrderFood = order.GetList();
 
-                menu.CheckPage(g_event);
-                menu.CheckFreeze(g_event);
-                if (menu.CheckAddMoreFood(g_event))
-                    paused = PAUSE::pause_add_food;
-                menu.CheckRemove(g_event, OrderFood);
+                if (paused == PAUSE::not_pause) 
+                {
+                    menu.CheckPage(g_event);
+                    menu.CheckFreeze(g_event);
+                    if (menu.CheckAddMoreFood(g_event))
+                        paused = PAUSE::pause_add_food;
+                    menu.CheckRemove(g_event, OrderFood);
 
-                order.CheckPage(g_event);
-                order.ChangeQuantityFood(g_event);
-                order.RemoveFood(g_event, MenuFood);
-                order.AddFood(g_event, MenuFood, menu.GetCurrentPage());
-                Payment_time = GetRealTime();
-                if (order.CheckPayment(g_event, g_screen, Payment_time, shift.GetShiftNumber(), shift))
-                    paused = PAUSE::pause_payment;
-            }
-            else if(paused == PAUSE::pause_payment)
-            {
-                order.CheckPageOfBill(g_event);
-                if (order.Check_Close(g_event, MenuFood))
-                    paused = PAUSE::not_pause;
-            }
-            else if (paused == PAUSE::pause_add_food)
-            {
-                if (menu.CheckLocationAddFood(g_event) != -1)
-                    enter = menu.CheckLocationAddFood(g_event);
-                menu.CheckEnter(g_event, enter);
-                if (menu.CheckCloseAddFood(g_event))
-                    paused = PAUSE::not_pause;
-            }
-            else if (paused == PAUSE::pause_change_shift)
-            {
-                if(shift.CheckCloseChangeShift(g_event, GetRealTime()))
-                    paused = PAUSE::not_pause;
+                    order.CheckPage(g_event);
+                    order.ChangeQuantityFood(g_event);
+                    order.RemoveFood(g_event, MenuFood);
+                    order.AddFood(g_event, MenuFood, menu.GetCurrentPage());
+                    Payment_time = GetRealTime();
+                    if (order.CheckPayment(g_event, g_screen, Payment_time, shift.GetShiftNumber(), shift, GetRealDate(),Account.getMaNV()))
+                        paused = PAUSE::pause_payment;
+
+                    if (shift.CheckLogout(g_event, GetRealTime(), GetRealDate(), Account.getMaNV()))
+                    {
+                        menu.SetDefaultCurrentPage();
+                        status = STATUS::login;
+                    }
+                }
+                else if(paused == PAUSE::pause_payment)
+                {
+                    order.CheckPageOfBill(g_event);
+                    if (order.Check_Close(g_event, MenuFood))
+                        paused = PAUSE::not_pause;
+                }
+                else if (paused == PAUSE::pause_add_food)
+                {
+                    if (menu.CheckLocationAddFood(g_event) != -1)
+                        enter_addfood = menu.CheckLocationAddFood(g_event);
+                    menu.CheckEnter(g_event, enter_addfood);
+                    if (menu.CheckCloseAddFood(g_event))
+                        paused = PAUSE::not_pause;
+                }
             }
         }
 
         SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(g_screen);
 
-        
-        g_background.Render(g_screen, NULL);
-
-        shift.ShowShift(g_screen);
-
-        menu.ShowPage(g_screen);
-        menu.DisplayMenu(g_screen);
-        menu.ShowButtonAddFood(g_screen);
-
-        order.ShowTotalPrice(160, 752, g_screen);
-        order.ShowPage(g_screen);
-        order.ShowPayment(g_screen);
-        order.DisplayOrder(g_screen);
-        order.ShowBill(Bill_Background, g_screen, Payment_time);
-        
-        shift.ShowBgChangeShift(Change_Shift_Background, g_screen);
-        menu.ShowBgAddFood(Add_Food_Background, g_screen);
-
-        //Show Real Time
-        std::string Real_time = GetRealTime();
-        RealTime.SetText(Real_time);
-        RealTime.LoadFromRenderText(font, g_screen);
-        RealTime.RendererText(g_screen, SCREEN_WIDTH - 230, 10);
-            
-        SDL_RenderPresent(g_screen);
-
-        //kiểm soát tốc độ cập nhật
-        frame_time = SDL_GetTicks() - frame_start;
-        if (frame_time < FRAME_DELAY)
+        if (status == STATUS::background)
         {
-            SDL_Delay(FRAME_DELAY - frame_time);
+            PBL2_background.Render(g_screen, NULL);
+            SDL_RenderPresent(g_screen);
         }
+        else if (status == STATUS::login)
+        {
+            Account.ShowBgLogin(Login_Background, g_screen);
+            if(paused == PAUSE::pause_choose_shift)
+                shift.ShowBgSelectShift(Choose_Shift_Background, g_screen);
+            SDL_RenderPresent(g_screen);
+        }
+        else
+        {
+            g_background.Render(g_screen, NULL);
+
+            shift.ShowShift(g_screen);
+
+            menu.ShowPage(g_screen);
+            menu.DisplayMenu(g_screen);
+            menu.ShowButtonAddFood(g_screen);
+
+            order.ShowTotalPrice(160, 752, g_screen);
+            order.ShowPage(g_screen);
+            order.ShowPayment(g_screen);
+            order.DisplayOrder(g_screen);
+            order.ShowBill(Bill_Background, g_screen, Payment_time);
+
+            menu.ShowBgAddFood(Add_Food_Background, g_screen);
+
+            //Show Real Time
+            std::string Real_time = GetRealTime();
+            RealTime.SetText(Real_time);
+            RealTime.LoadFromRenderText(font, g_screen);
+            RealTime.RendererText(g_screen, SCREEN_WIDTH - 230, 10);
+
+            SDL_RenderPresent(g_screen);
+
+            //kiểm soát tốc độ cập nhật
+            frame_time = SDL_GetTicks() - frame_start;
+            if (frame_time < FRAME_DELAY)
+            {
+                SDL_Delay(FRAME_DELAY - frame_time);
+            }
+        } 
     }
 
-    //Check out ca làm việc cuối
-    shift.AddToFile(GetRealTime());
+    //Check out ca làm việc cuối khi chưa đăng xuất
+    if(status == STATUS::runApp)
+        shift.AddToFile(GetRealTime(), GetRealDate(), Account.getMaNV());
 
     Close();
 

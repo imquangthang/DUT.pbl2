@@ -74,6 +74,11 @@ bool Menu::Add()
     return true;
 }
 
+void Menu::SetDefaultCurrentPage()
+{
+    this->CurrentPage = 0;
+}
+
 void Menu::CheckPage(SDL_Event events)
 {
     //Check Page

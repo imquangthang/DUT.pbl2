@@ -53,7 +53,7 @@ public:
 	void ShowTotalPrice(const int&, const int&, SDL_Renderer*);
 	int GetTotalPrice()const { return this->TotalPrice; }
 	
-	bool CheckPayment(SDL_Event, SDL_Renderer*, std::string Payment_time, const int&, Shift&);
+	bool CheckPayment(SDL_Event, SDL_Renderer*, std::string Payment_time, const int&, Shift&, std::string, std::string);
 	void ShowPayment(SDL_Renderer*);
 
 	bool Get_is_Payment()const { return is_payment; }
@@ -63,7 +63,7 @@ public:
 	void CheckPageOfBill(SDL_Event);
 	void ShowPageOfBill(SDL_Renderer*);
 
-	void Invoicing(std::string Payment_time, const int&, Shift&);
+	void Invoicing(std::string , const int&, Shift&, std::string, std::string);
 };
 
 #endif
